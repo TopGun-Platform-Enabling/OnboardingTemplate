@@ -1,15 +1,9 @@
 # FeatureBranch-MVP-AWS Draft Version
 # First onboarding making process clear and drafted 
 
-flowchart TD
-    A["Test and setup AWS Cli conform BP"] --> B["Configure dry-run modus to limit control spending"]
-    B --> C["Test setup instance VPC (Virtual Private Endpoint)"]
-    C --> D["Configure EC2 instance with appropriate security groups and IAM roles, shutdown after testing"]
-    D --> E["Configure CloudTrail to monitor and log all API activity in the AWS environment"]
-    E --> F["Script via bash a baseline to control and govern audit logs safely and secure"]
-    F --> G["Configure IAM to allow only included roles , selectively 5 max"]
-    G --> H["Make sure to test all components and ensure they are working correctly before proceeding with the project."]
-    H --> I["Document the setup process and any configurations made for future reference and troubleshooting."]
+# Link to Mermaid
+
+<img width="1240" height="6310" alt="AWS IAM CloudTrail Flow-2026" src="https://github.com/user-attachments/assets/8accc302-ba62-4f76-a942-c84e6609ad34" />
 
 Further topics would be :
 
@@ -32,36 +26,28 @@ Further topics would be :
 
 - Script via bash a baseline to control and govern audit logs safely and secure
 
-#!/usr/bin/env bash
- set -euo pipefail
-
- AWS_VAULT_EXE="${AWS_VAULT_EXE:-aws-vault}"
- AWS_PROFILE_DEFAULT="${AWS_PROFILE_DEFAULT:-default}"
- SECRETS_SUBSCRIPTION="${SECRETS_SUBSCRIPTION:-secrets}"
- DRY_RUN="${DRY_RUN:-true}"
-
- AUDIT_LOG="${AUDIT_LOG:-$HOME/.aws/aws-vault-audit.log}"
-
- die() {
-     echo "ERROR: $*" >&2
-     audit_log "ERROR" "$*" "1"
-     exit 1
- }
-
- audit_log() {
-     local status="$1"
-     local message="$2"
-     local exitcode="${3:-0}"
-
-     local timestamp
-     timestamp="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-
-     local identity="unknown"
-     if command -v aws >/dev/null 2>&1; then
-         identity="$(aws sts get-caller-identity --output json 2>/dev/null || echo 'unavailable')"
-     fi
-
-     printf "%s | profile=%s | status=%s | exit=%s | cmd=%s | identity=%s\n" \
-         "$timestamp" "$PROFILE" "$status" "$exitcode" "$CMD_STRING" "$identity" \
+>  AUDIT_LOG="${AUDIT_LOG:-$HOME/.aws/aws-vault-audit.log}"
+> 
+>  die() {
+>      echo "ERROR: $*" >&2
+>      audit_log "ERROR" "$*" "1"
+>      exit 1  }
+> 
+>  audit_log() {
+>      local status="$1"
+>      local message="$2"
+>      local exitcode="${3:-0}"
+> 
+>      local timestamp
+>      timestamp="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+> 
+>      local identity="unknown"
+>      if command -v aws >/dev/null 2>&1; then
+>          identity="$(aws sts get-caller-identity --output json 2>/dev/null || echo 'unavailable')"
+>      fi
+> 
+>      printf "%s | profile=%s | status=%s | exit=%s | cmd=%s | identity=%s\n" \
+>          "$timestamp" "$PROFILE" "$status" "$exitcode" "$CMD_STRING" "$identity" \
+>          >> "$AUDIT_LOG"  }
          >> "$AUDIT_LOG"
  }
