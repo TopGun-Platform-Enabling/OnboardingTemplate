@@ -1,7 +1,7 @@
 # FeatureBranch-MVP-AWS Draft Version
-# First onboarding making process clear and drafted 
 
-# Link to Mermaid
+## First definition and onboarding of solution blocks to make process clear and drafted 
+
 
 <img width="1240" height="6310" alt="AWS IAM CloudTrail Flow-2026" src="https://github.com/user-attachments/assets/8accc302-ba62-4f76-a942-c84e6609ad34" />
 
@@ -24,7 +24,7 @@ Further topics would be :
 >     > credentials  node_modules  package-lock.json  package.json  sso
 >     > krisdevops@TopGun-X3:~/.aws$
 
-- Script via bash a baseline to control and govern audit logs safely and secure
+## Gathering phasis 2 - more data and audit logging
 
 >  AUDIT_LOG="${AUDIT_LOG:-$HOME/.aws/aws-vault-audit.log}"
 > 
