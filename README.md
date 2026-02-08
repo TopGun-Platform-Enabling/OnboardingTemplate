@@ -3,15 +3,15 @@
 
 
 ''' Mermaid diagram for AWS Setup ToDo List'
-    graph TD
-    A[Test and setup AWS Cli conform BP] --> B[Configure dry-run modus to limit control spending]
-    B --> C[Test setup instance VPC (Virtual Private Endpoint)]
-    C --> D[Configure EC2 instance with appropriate security groups and IAM roles, shutdown after testing]
-    D --> E[Configure CloudTrail to monitor and log all API activity in the AWS environment]
-    E --> F[Script via bash a baseline to control and govern audit logs safely and secure]
-    F --> G[Configure IAM to allow only included roles , selectively 5 max]
-    G --> H[Make sure to test all components and ensure they are working correctly before proceeding with the project.]
-    H --> I[Document the setup process and any configurations made for future reference and troubleshooting.]
+  flowchart TD
+    A["Test and setup AWS Cli conform BP"] --> B["Configure dry-run modus to limit control spending"]
+    B --> C["Test setup instance VPC (Virtual Private Endpoint)"]
+    C --> D["Configure EC2 instance with appropriate security groups and IAM roles, shutdown after testing"]
+    D --> E["Configure CloudTrail to monitor and log all API activity in the AWS environment"]
+    E --> F["Script via bash a baseline to control and govern audit logs safely and secure"]
+    F --> G["Configure IAM to allow only included roles , selectively 5 max"]
+    G --> H["Make sure to test all components and ensure they are working correctly before proceeding with the project."]
+    H --> I["Document the setup process and any configurations made for future reference and troubleshooting."]
 '''
 
 Further topics would be :
