@@ -2,7 +2,7 @@
 # First onboarding making process clear and drafted 
 
 
-''' Mermaid diagram for AWS Setup ToDo List'
+''' Mermaid  
   flowchart TD
     A["Test and setup AWS Cli conform BP"] --> B["Configure dry-run modus to limit control spending"]
     B --> C["Test setup instance VPC (Virtual Private Endpoint)"]
