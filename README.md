@@ -1,9 +1,7 @@
 # FeatureBranch-MVP-AWS Draft Version
 # First onboarding making process clear and drafted 
 
-
-''' Mermaid  
-  flowchart TD
+flowchart TD
     A["Test and setup AWS Cli conform BP"] --> B["Configure dry-run modus to limit control spending"]
     B --> C["Test setup instance VPC (Virtual Private Endpoint)"]
     C --> D["Configure EC2 instance with appropriate security groups and IAM roles, shutdown after testing"]
@@ -12,7 +10,6 @@
     F --> G["Configure IAM to allow only included roles , selectively 5 max"]
     G --> H["Make sure to test all components and ensure they are working correctly before proceeding with the project."]
     H --> I["Document the setup process and any configurations made for future reference and troubleshooting."]
-'''
 
 Further topics would be :
 
