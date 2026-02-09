@@ -1,11 +1,10 @@
 # FeatureBranch-MVP-AWS Draft Version
 
-## First definition and onboarding of solution blocks to make process clear and drafted 
+## Onboarding solution blocks to make process clear and drafted 
 
 
 <img width="1240" height="6310" alt="AWS IAM CloudTrail Flow-2026" src="https://github.com/user-attachments/assets/8accc302-ba62-4f76-a942-c84e6609ad34" />
 
-Further topics would be :
 
 - Test and setup AWS Cli conform BP
 - Configure dry-run modus to limit control spending
@@ -23,6 +22,33 @@ Further topics would be :
 >     > krisdevops@TopGun-X3:~/.aws$ ls amazonq  aws_vault.sh  config 
 >     > credentials  node_modules  package-lock.json  package.json  sso
 >     > krisdevops@TopGun-X3:~/.aws$
+
+ ## Recommendations as per my own developed CIv2 (Cloud Adoption Framework):
+
+ - [x] Test and setup AWS Cli conform BP
+       - 
+ - [x] Configure dry-run modus to limit control spending
+              - 
+ - [x] Test setup instance VPC (Virtual Private Endpoint)
+                     - 
+ - [x] Configure EC2 instance with appropriate security groups and IAM
+       roles, shutdown after testing
+                            - 
+ - [x] Configure CloudTrail to monitor and log all API activity in the
+       AWS environment
+                                   - 
+ - [x] Script via bash a baseline to control and govern audit logs
+       safely and secure
+                                          - 
+ - [x] Configure IAM to allow only included roles , selectively 5 max
+                                                 - 
+ - [ ] Make sure to test all components and ensure they are working
+       correctly before  proceeding with the project.
+                                                    
+ - [ ] Document the setup process and any configurations made for future reference of updates and or new solutions
+ - [ ]  Regularly review and update the AWS environment to ensure it
+              remains secure and efficient for production workloads as the                                   project evolves.
+
 
 ## Gathering phasis 2 - more data and audit logging
 
