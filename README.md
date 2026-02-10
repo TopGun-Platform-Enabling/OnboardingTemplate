@@ -1,9 +1,9 @@
 # FeatureBranch-MVP-AWS Draft Version
 
 
-> Shift Left:  Start security testing early.  Automate: Integrate
-> security tools into CI/CD.  Collaborate: Align all teams on security
-> goals.
+> Shift Left:  Start security testing early.
+> Automate: Integrate security tools into CI/CD.
+> Collaborate: Align all teams on security goals.
 
 ## Drafted solution blocks, initiate process AWS onboarding 
 
