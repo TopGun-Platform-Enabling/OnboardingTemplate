@@ -1,11 +1,8 @@
 # FeatureBranch-MVP-AWS Draft Version
 
-## Onboarding solution blocks to make process clear and drafted 
+## Drafted solution blocks, initiate process AWS onboarding 
 
-<img width="1240" height="6310" alt="AWS IAM CloudTrail Flow-2026" src="https://github.com/user-attachments/assets/8accc302-ba62-4f76-a942-c84e6609ad34" />
-
-
-  E.g of ongoing dev for a GoldenPath within core AWS
+  Create a GoldenPath within core AWS
   
 >     > krisdevops@TopGun-X3:~/.aws$ ls amazonq  aws_vault.sh  config 
 >     > credentials  node_modules  package-lock.json  package.json  sso
@@ -38,7 +35,7 @@
               remains secure and efficient for production workloads as the                                   project evolves.
 
 
-## Gathering phasis 2 - more data and audit logging
+## Gathering phasis 2 - Enhance data and audit logging on your default profile
 
 >  AUDIT_LOG="${AUDIT_LOG:-$HOME/.aws/aws-vault-audit.log}"
 > 
@@ -65,3 +62,75 @@
 >          >> "$AUDIT_LOG"  }
          >> "$AUDIT_LOG"
  }
+
+# Specific Security Policy
+
+## Adapted Versions
+
+Changes made 
+
+Adjust CI workflow to preserve a PR feature log artifact instead of commenting the Terraform plan on the PR.	
+•	Remove github-script-based step that reads tf-summarize and posts it as a PR comment.
+•	Add shell step that, for pull_request events, copies /mnt/data/pr-feature-log into $GITHUB_WORKSPACE/pr-feature-log if it exists.
+•	Keep Terraform apply execution unchanged after the new log copy step.	
+
+Add PR rules configuration to enforce branch naming, touched files, forbidden paths, file count, required labels, and reviewers.	
+•	Introduce .pr_rules.yaml with a regex enforcing feature/ branches containing a CRLZ ticket id.
+•	Require that docs/architecture.md and modules/network/README.md are modified in the PR.
+•	Disallow changes under prod-secrets/ and GitOps paths.
+•	Limit PRs to a maximum of 50 changed files.
+•	Define all required_labels (architecture, cr:review) and required_reviewers (arch-team) for PR automation or validation.
+
+Add a pr-feature-log file at the repo root to integrate with CI diagnostics.	
+•	Create new pr-feature-log file to be copied into the workspace during CI for pull requests.
+•	Prepare groundwork for external process or tooling that writes diagnostics to /mnt/data/pr-feature-log via a pr-feature-log file descriptor
+
+
+## Reporting a Vulnerability
+
+✔️ Option A — Email the maintainers
+
+Check README files or metadata manifests
+
+✔️ Option B — Open an issue (only if the vulnerability is NOT sensitive)
+
+# Policies applied to AKS
+[AKS exhaustive List and Release Notes](./policies.md)
+
+# Org Wide security activation for selected repositories and best practices service mesh 
+
+```mermaid
+flowchart TD 
+    Start[Start_PR_validation] --> LoadRules[Load_.pr_rules_yaml]
+    LoadRules --> CheckBranch{Branch_matches_branch_pattern}
+    CheckBranch -->|No| FailBranch[Fail_PR_invalid_branch]
+    CheckBranch -->|Yes| CheckRequiredFiles{All_required_files_modified}
+    CheckRequiredFiles -->|No| FailRequiredFiles[Fail_PR_missing_required_files]
+    CheckRequiredFiles -->|Yes| CheckForbiddenPaths{Forbidden_paths_modified}
+    CheckForbiddenPaths -->|Yes| FailForbiddenPaths[Fail_PR_forbidden_paths_changed]
+    CheckForbiddenPaths -->|No| CheckMaxFiles{Changed_files_<=_max_files}
+    CheckMaxFiles -->|No| FailMaxFiles[Fail_PR_too_many_files]
+    CheckMaxFiles -->|Yes| ApplyLabels[Apply_required_labels_to_PR]
+    ApplyLabels --> RequestReviewers[Request_required_reviewers]
+    RequestReviewers --> Success[PR_policy_checks_passed]
+
+    FailBranch --> End[End]
+    FailRequiredFiles --> End
+    FailForbiddenPaths --> End
+    FailMaxFiles --> End
+    Success --> End
+    End[End_PR_validation]
+```
+
+Shift Left: Start security testing early.
+Automate: Integrate security tools into CI/CD.
+Collaborate: Align all teams on security goals.
+
+# CodeQL scanning per environment and language
+
+Coming soon!
+
+
+
+
+
