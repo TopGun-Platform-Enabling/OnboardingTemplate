@@ -1,5 +1,10 @@
 # FeatureBranch-MVP-AWS Draft Version
 
+
+> Shift Left:  Start security testing early.  Automate: Integrate
+> security tools into CI/CD.  Collaborate: Align all teams on security
+> goals.
+
 ## Drafted solution blocks, initiate process AWS onboarding 
 
   Create a GoldenPath within core AWS
@@ -121,10 +126,6 @@ flowchart TD
     Success --> End
     End[End_PR_validation]
 ```
-
-Shift Left: Start security testing early.
-Automate: Integrate security tools into CI/CD.
-Collaborate: Align all teams on security goals.
 
 # CodeQL scanning per environment and language
 
