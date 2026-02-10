@@ -130,7 +130,19 @@ flowchart TD
 
 # CodeQL scanning per environment and language
 
-Coming soon!
+These CodeQL alerts are displayed in the repository “Security” tab on the code scanning page:
+
+> Press enter or click to view image in full size
+
+![](https://miro.medium.com/v2/resize:fit:1313/1*Fd_F1ljZtjlfXNv0yey8IA.png)
+
+## **Automating Issue Creation with GitHub REST API**
+
+In order to automate issue creation, I had to create a new workflow that would query the  [GitHub Rest API](https://docs.github.com/en/rest?apiVersion=2022-11-28)  and generate the necessary issues.
+
+1.  First, I obtained a list of all of the existing CodeQL alerts with a GET request.
+2.  Then I created a second GET request to check if there are any existing issues created for the CodeQL alerts obtained from step 1.
+3.  Lastly, I used a POST request to automatically generate issues for any alerts without associated issues.
 
 
 
