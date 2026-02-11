@@ -1,0 +1,24 @@
+resources:
+  myInstance:
+    type: aws:ec2:instance
+    properties:
+      ImageId: ami-0c02fb55956c7d316
+      InstanceType: t3.micro
+      SubnetId: ${privateSubnet.id}
+      SecurityGroupIds:
+        - ${instanceSecurityGroup.id}
+      MetadataOptions:
+        HostnameType: resource-name
+        EnableResourceNameDnsARecord: true
+        EnableResourceNameDnsAAAARecord: true
+      Tags:
+        - Key: Name
+          Value: httpd
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          yum update -y
+          yum install -y httpd
+          systemctl enable httpd
+          systemctl start httpd
+          echo "TopGun Main Site" > /var/www/html/index.html
