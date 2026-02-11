@@ -1,30 +1,140 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI Onboarding templates for AWS Compliancy
-run-name: CI-AWS-v2
+name: CI Onboarding templates for Audit & Compliancy
+run-name: CI_Data-v2
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [ "main", "ArchDecisions-v3" ]
+  workflow_call:
+    secrets:
+      TF_VAR_gh_token:
+        required: true
   workflow_dispatch:
-    
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  NODE_VERSION: '20.x'
+  WORKING_DIRECTORY: .
+  TF_VAR_gh_token: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  id-token: write
+  actions: write
+  artifact-metadata: read
+  repository-projects: write
+  security-events: write
+
 jobs:
-  # This workflow contains a single job called "build"
+
+  # ---------------------------------------------------------
+  # 1. Terraform Check (Reusable Workflow)
+  # ---------------------------------------------------------
   terraform:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    uses: TopGun-Platform-Enabling/ArchDecisions-v3/.github/workflows/main-data.yml@main
+    secrets:
+      TF_VAR_gh_token: ${{ secrets.GH_TOKEN }}
+
+  # ---------------------------------------------------------
+  # 2. Tests (Reusable Workflow)
+  # ---------------------------------------------------------
+  tests:
+    needs: terraform
+    uses: TopGun-Platform-Enabling/ArchDecisions-v3/.github/workflows/main-data.yml@main
+
+    # --- Governance Hardening ---
+    permissions:
+      contents: read
+      id-token: write
+      actions: read
+
+    secrets:
+      TF_VAR_gh_token: ${{ secrets.GH_TOKEN }}
+
+    with:
+      run_tests: true
+      environment: "dev"
+      enable_audit: true
+      strict_mode: true
+
+  # ---------------------------------------------------------
+  # 3. Build & Push (Reusable Workflow)
+  # ---------------------------------------------------------
+  build-and-push:
+    needs: tests
+    uses: TopGun-Platform-Enabling/ArchDecisions-v3/.github/workflows/buildkubectlapp.yml@main
+    secrets:
+      TF_VAR_gh_token: ${{ secrets.GH_TOKEN }}
+
+  # ---------------------------------------------------------
+  # 3. Build CSV + Upload artifacts (matrix)
+  # ---------------------------------------------------------
+
+  upload:
+    name: Generate Build and Fetch Artifacts
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        version: [a, b]
+    runs-on: ${{ matrix.os }}
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - name: CheckOut repo sources and artifacts
+        uses: actions/checkout@v3
+
+      - name: Build core and allure reporting
+        run: ./Fetch_CSV.sh --version=${{ matrix.version }} >> DataResults.csv
+
+      - name: Prepare artifact folder
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          mkdir Integration_Tests
+          chmod 775 -R .
+          mv DataResults.csv ./Integration_Tests
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ matrix.os }}-${{ matrix.version }}
+          path: Integration_Tests
+
+
+  # ---------------------------------------------------------
+  # 4. Generate Allure report
+  # ---------------------------------------------------------
+
+  allure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: CheckOut repo sources and artifacts
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline --save-dev
+
+      - name: Generate Allure Report
+        run: |
+          echo "Generating Allure report"
+          npx allure generate ./allure-results --clean -o ./allure-report
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+  summary:
+    needs: [ terraform, tests, allure, build-and-push ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Short Summary
+        run: |
+          echo "All jobs have completed stages at this end and reaches the desired state for succesfull integrations"
+          echo "Included tf-summarized plan coming soon and added as a feature into our main solutions, applied for rulesets and compelling security outputs"
+          echo "BuildandPush will serve our control plane and optimize as such overtime"
