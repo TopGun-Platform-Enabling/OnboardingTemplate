@@ -1,0 +1,81 @@
+# -----------------------------
+# Terraform state & crash logs
+# -----------------------------
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+# -----------------------------
+# Terraform working directories
+# -----------------------------
+.terraform/
+.terraform/providers
+.terraform.lock.hcl
+
+# -----------------------------
+# Terraform plan files
+# -----------------------------
+*.tfplan
+*.plan
+
+# -----------------------------
+# Sensitive variable files
+# -----------------------------
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# -----------------------------
+# Local override files
+# -----------------------------
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# -----------------------------
+# Module build artifacts
+# -----------------------------
+# Prevent committing vendored modules
+.terraform/modules/
+modules/**/.terraform/
+modules/**/.terraform.lock.hcl
+
+# -----------------------------
+# Large files / archives
+# -----------------------------
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+*.7z
+*.rar
+*.iso
+
+# -----------------------------
+# Logs & temp files
+# -----------------------------
+*.log
+*.tmp
+*.bak
+*.swp
+*.swp
+*~
+.DS_Store
+
+# -----------------------------
+# IDE / Editor files
+# -----------------------------
+.vscode/
+.idea/
+*.iml
+.terraform/
+
+# -----------------------------
+# Local engine
+# -----------------------------
+gitops/apps/control-plane/argo-cd/gitops-engine/*
+
