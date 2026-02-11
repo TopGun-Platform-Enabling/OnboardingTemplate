@@ -151,7 +151,45 @@ In order to automate issue creation, I had to create a new workflow that would q
     
     export $ARGO_XHEADERS
 
-### *Reporting*
+## Baseline for CR changes into terraform
+
+>  krisdevops@TopGun-X3:/mnt/data/ci-aws-v1/OnboardingTemplate_ImportModules$ cat summary_tfchanges.txt
++--------+--------------------------------------------+
+| CHANGE |                  RESOURCE                  |
++--------+--------------------------------------------+
+| update | github_repository_ruleset.TigerHub_ruleset |
++--------+--------------------------------------------+
+> 
+> 
+
+*    Structural Templated Improvements
+
+>
+>krisdevops@TopGun-X3:/mnt/data/ci-aws-v1/OnboardingTemplate_ImportModules$ ll
+total 108
+drwxr-xr-x 8 krisdevops krisdevops 4096 Feb 11 20:48 ./
+drwxr-xr-x 3 krisdevops krisdevops 4096 Feb 11 18:21 ../
+drwxr-xr-x 8 krisdevops krisdevops 4096 Feb 11 18:21 .git/
+drwxr-xr-x 3 krisdevops krisdevops 4096 Feb 11 18:21 .github/
+-rw-r--r-- 1 krisdevops krisdevops 1428 Feb 11 20:33 .gitignore
+drwxr-xr-x 3 krisdevops krisdevops 4096 Feb 11 18:48 .terraform/
+-rw-r--r-- 1 krisdevops krisdevops 5716 Feb 11 18:49 .terraform.lock.hcl
+-rw-r--r-- 1 krisdevops krisdevops 8246 Feb 11 18:21 README.md
+drwxr-xr-x 2 krisdevops krisdevops 4096 Feb 11 20:40 deploy/
+-rw-r--r-- 1 krisdevops krisdevops  676 Feb 11 18:21 ec2.yaml
+drwxr-xr-x 4 krisdevops krisdevops 4096 Feb 11 20:42 gitops/
+-rw-r--r-- 1 krisdevops krisdevops 2006 Feb 11 20:29 main.tf
+drwxr-xr-x 2 krisdevops krisdevops 4096 Feb 11 20:48 modules/
+-rw-r--r-- 1 krisdevops krisdevops 1321 Feb 11 19:11 outputs.tf
+-rw-r--r-- 1 krisdevops krisdevops  468 Feb 11 18:21 pr-feature.log
+-rw-r--r-- 1 krisdevops krisdevops  280 Feb 11 20:46 summary_tfchanges.txt
+-rw-r--r-- 1 krisdevops krisdevops 4192 Feb 11 20:26 terraform.tfstate
+-rw-r--r-- 1 krisdevops krisdevops 1480 Feb 11 20:26 terraform.tfstate.backup
+-rw-r--r-- 1 krisdevops krisdevops  876 Feb 11 20:23 terraform.tfvars
+-rw-r--r-- 1 krisdevops krisdevops 9233 Feb 11 20:46 tfplan
+-rw-r--r-- 1 krisdevops krisdevops 1228 Feb 11 19:48 variables.tf
+
+### *App Coverage and Reporting*
 >
 > Setup python dependencies and promote via terraform, output the report section 
 >
