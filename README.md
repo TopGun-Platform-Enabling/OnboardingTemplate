@@ -85,7 +85,49 @@ In order to automate issue creation, I had to create a new workflow that would q
 
 ### **Python creates a summary package and uses Allure reporting for baseline and threshold measurements**
 
+#### Audit logging building block standard!
 
+> Advanced PR feature logs, inspects and collects after 2days no modifications
+> 
+> * Enhanced Security Logging, appending CSV Outputs after two days non regular captures
+> * Uses python packages, to uplift core dependencies
+>  * Cucumber-js will be configured as an add-on next to CI-v2, making sure framework remains vast and stable releases
+>  
+
+     krisdevops@TopGun-X3:/mnt/data/ArchDecisions-v3-recovered$
+     ./Fetch_CSV.sh
+     
+    ✅ PR audit log updated: ./reports/pr_audit_log.csv
+
+> Sample Coding
+
+#### Fetch all PRs (merged + open)
+
+    prs=$(curl -s -H "Authorization: token $TOKEN" \
+      "https://api.github.com/repos/$OWNER/$REPO/pulls?state=all&per_page=100")
+
+#### Loop through PR numbers
+
+    echo "$prs" | jq -r '.[].number' | while read -r pr; do
+      file="pr_${pr}.json"
+    
+     ### Skip if file is fresh (<2 days)
+      if [ -f "$file" ]; then
+        mtime=$(stat -c %Y "$file")
+        now=$(date +%s)
+        age=$(( (now - mtime) / 86400 ))
+    
+        if [ "$age" -le 2 ]; then
+          echo "⏩ Skipping PR $pr (cached $age days)"
+          continue
+        fi
+      fi
+    
+      echo "  Fetching PR $pr…"
+	  
+>
+> Allure add-on coverage reporting
+> 
     root@TopGun-X3:~# npm install -g allure-commandline --save-dev  
     added 1 package, and audited 2 packages in 4s
     
@@ -110,7 +152,9 @@ In order to automate issue creation, I had to create a new workflow that would q
     export $ARGO_XHEADERS
 
 ### *Reporting*
+>
 > Setup python dependencies and promote via terraform, output the report section 
+>
 
 ```
 
